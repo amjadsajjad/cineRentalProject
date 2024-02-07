@@ -3,12 +3,14 @@ import { MovieContex } from "../../contex/contex";
 import { getImgUrl } from "../../utils/cinema-utils";
 
 const CartDetails = ({ handleCloseCart }) => {
-    const { cartData,setCartData } = useContext(MovieContex);
+    const { state, dispatch } = useContext(MovieContex);
     // console.log(cartData);
 
     const handleDeleteCart = (movie) => {
-        const fileteredCartData = cartData.filter(cart => cart.id !==movie.id);
-        setCartData([...fileteredCartData])
+       dispatch({
+        type:'REMOVE_FROM_CART',
+        payload:{...movie}
+       })
 
     }
 
@@ -26,8 +28,8 @@ const CartDetails = ({ handleCloseCart }) => {
                     <div
                         className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14"
                     >
-                        { cartData.length ?
-                            (cartData.map(cart => (
+                        { state.cartData.length ?
+                            (state.cartData.map(cart => (
                                 <div key={ cart.id } className="grid grid-cols-[1fr_auto] gap-4">
                                     <div className="flex items-center gap-4">
                                         <img

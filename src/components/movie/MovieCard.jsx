@@ -9,7 +9,7 @@ const MovieCard = ({ movie }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [selectMovie, setSelectMovie] = useState(null);
 
-	const { cartData, setCartData } = useContext(MovieContex)
+	const { state, dispatch } = useContext(MovieContex)
 
 	const handleModalClose = () => {
 		setSelectMovie(null);
@@ -22,10 +22,15 @@ const MovieCard = ({ movie }) => {
 	}
 	const handleAddToCart = (movie, event) => {
 		event.stopPropagation()
-		const foundMovie = cartData.find(item => item.id === movie.id);
+
+		const foundMovie = state.cartData.find(item => item.id === movie.id);
 		if (!foundMovie) {
-			setCartData([...cartData, movie])
+			dispatch({
+				type:'ADD_TO_CART',
+				payload:{...movie}
+			})
 		}
+
 		else{
 			console.error(`The movie ${movie.title } is already added.`)
 		}

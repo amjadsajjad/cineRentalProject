@@ -15,8 +15,8 @@ const Header = () => {
         setShowCart(true);
     }
 
-    const { cartData } = useContext(MovieContex)
-    const {showDark,setShowDark} = useContext(ThemeContex)
+    const { state } = useContext(MovieContex)
+    const { showDark, setShowDark } = useContext(ThemeContex)
 
 
 
@@ -41,8 +41,8 @@ const Header = () => {
                     </li>
                     <li>
                         <a className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block" href="#"
-                        onClick={() => setShowDark(!showDark)}>
-                            <img src={showDark? sun : moon} width="24" height="24" alt="" />
+                            onClick={() => setShowDark(!showDark)}>
+                            <img src={showDark ? sun : moon} width="24" height="24" alt="" />
                         </a>
                     </li>
                     <li>
@@ -50,7 +50,7 @@ const Header = () => {
                             onClick={handleCartShow}
                         >
                             <img src={shoppingCart} width="24" height="24" alt="" />
-                            {cartData.length > 0 && <span className='absolute bottom-5 left-5 bg-[#12CF6F] px-2 rounded-full opacity-80 text-white '>{cartData.length}</span>}
+                            {state.cartData.length > 0 && <span className='absolute bottom-5 left-5 bg-[#12CF6F] px-2 rounded-full opacity-80 text-white '>{state.cartData.length}</span>}
                         </a>
                     </li>
                 </ul>

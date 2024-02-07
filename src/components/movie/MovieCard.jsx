@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getImgUrl } from "../../utils/cinema-utils";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
+import tag from '../../assets/tag.svg'
+import { MovieContex } from "../../contex/contex";
 
 const MovieCard = ({ movie }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [selectMovie, setSelectMovie] = useState(null);
+
+	const { cartData, setCartData } = useContext(MovieContex)
 
 	const handleModalClose = () => {
 		setSelectMovie(null);
@@ -16,6 +20,17 @@ const MovieCard = ({ movie }) => {
 		setSelectMovie(movie)
 		setShowModal(true)
 	}
+	const handleAddToCart = (movie, event) => {
+		event.stopPropagation()
+		const foundMovie = cartData.find(item => item.id === movie.id);
+		if (!foundMovie) {
+			setCartData([...cartData, movie])
+		}
+		else{
+			console.error(`The movie ${movie.title } is already added.`)
+		}
+
+	}
 
 
 	return (
@@ -23,6 +38,7 @@ const MovieCard = ({ movie }) => {
 			{showModal && <MovieDetailsModal
 				movie={selectMovie}
 				handleModalClose={handleModalClose}
+				handleAddToCart={handleAddToCart}
 
 			></MovieDetailsModal>}
 
@@ -37,8 +53,9 @@ const MovieCard = ({ movie }) => {
 						<div className="flex items-center space-x-1 mb-5">
 							<Rating value={movie.rating}></Rating>
 						</div>
-						<button className="bg-primary rounded-lg py-2 w-full px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm">
-							<img src="./assets/tag.svg" alt="" />
+						<button className="bg-primary rounded-lg py-2 w-full px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
+							onClick={(event) => handleAddToCart(movie, event)}>
+							<img src={tag} alt="" />
 							<span>${movie.price} | Add to Cart</span>
 						</button>
 					</figcaption>
